@@ -1,6 +1,6 @@
 ---
 name: your-skill-name
-description: Describe exactly when this skill should be used and what problem it solves.
+description: Describe exactly when an agent should use this skill and what problem it solves.
 ---
 
 # Your Skill Name
@@ -29,3 +29,4 @@ description: Describe exactly when this skill should be used and what problem it
 
 - Add supporting material under `references/`, `scripts/`, or `assets/` as needed.
 - Link to it here, for example [examples](references/examples.md).
+- Keep source frontmatter portable across Codex, Claude Code, and OpenCode.
