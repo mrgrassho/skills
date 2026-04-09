@@ -4,15 +4,35 @@ Reusable skills for Codex, Claude Code, and OpenCode.
 
 This repository is meant to be useful to people other than the author. It keeps published skills in a predictable structure, requires each skill to have a clear trigger and a bounded workflow, and backs every published skill with at least one concrete example or helper artifact.
 
-## Quick start
+## Install (Quick)
 
-1. Treat `skills/` as the source of truth.
-2. Run `python3 scripts/export_skill_targets.py` to generate ready-to-copy install bundles.
-3. Copy the generated bundle that matches your tool:
-   - Claude Code: `dist/claude/.claude/skills/` -> `~/.claude/skills/`
-   - OpenCode: `dist/opencode/.opencode/skills/` -> `.opencode/skills/` or `~/.config/opencode/skills/`
-   - Codex-style source layout: copy directly from `skills/`
-4. Run `python3 scripts/validate_skills.py` before publishing changes back to this repo.
+Clone the repo and install every published skill into every supported coding agent:
+
+```bash
+git clone https://github.com/mrgrassho/skills.git && cd skills && bash scripts/install_skill.sh all
+```
+
+Use the installer directly when you only want one target or one skill:
+
+- Claude Code: `bash scripts/install_skill.sh claude`
+- OpenCode: `bash scripts/install_skill.sh opencode`
+- Codex: `bash scripts/install_skill.sh codex`
+- All supported coding agents: `bash scripts/install_skill.sh all`
+- Single published skill: `bash scripts/install_skill.sh codex implement-plan-worktree`
+- Project-local destination: `bash scripts/install_skill.sh opencode --dest .opencode/skills`
+
+The installer refreshes the Claude and OpenCode export bundles automatically before copying them into place. `skills/` remains the source of truth.
+
+## Propose Changes
+
+If you want to improve or publish skills instead of installing them:
+
+1. Edit or add skills under `drafts/` or `skills/`.
+2. Regenerate the exported bundles with `python3 scripts/export_skill_targets.py`.
+3. Validate the published set with `python3 scripts/validate_skills.py`.
+4. Open a pull request with the updated skill and generated `dist/` output.
+
+See `CONTRIBUTING.md` for the review checklist and publishing rules.
 
 ## Compatibility model
 
@@ -61,4 +81,4 @@ Drafts and partial ideas belong in `drafts/` until they meet that bar.
 
 ## Contributing
 
-Start from `templates/skill/`, keep the skill concise, and promote it to `skills/` only when it is example-backed and reusable. After edits, regenerate `dist/` with `python3 scripts/export_skill_targets.py`. See `CONTRIBUTING.md` for the review checklist and publishing rules.
+Start from `templates/skill/`, keep the skill concise, and promote it to `skills/` only when it is example-backed and reusable.
