@@ -119,22 +119,6 @@ Implemented the plan described in `input.md` starting from `main`.
 
 If anything is incomplete, call it out directly in `Notes` or `Follow-ups`.
 
-## Clipboard behavior
-
-Save the PR markdown to a file first. Copy it to the clipboard only when the environment supports it.
-
-Examples:
-
-- macOS: `pbcopy < "$PR_FILE"`
-- Linux with xclip: `xclip -selection clipboard < "$PR_FILE"`
-- Linux with xsel: `xsel --clipboard --input < "$PR_FILE"`
-
-If no clipboard tool exists:
-
-- do not fail the task
-- return the PR markdown in the final response
-- state that clipboard copy was unavailable
-
 ## Failure handling examples
 
 - PR creation fails:
@@ -149,5 +133,4 @@ If no clipboard tool exists:
 - PR URL
 - pushed branch name
 - whether the temporary worktree was deleted
-- clipboard copy status if attempted
 - a fenced `md` block containing the PR title, summary, what changed, testing, and follow-ups

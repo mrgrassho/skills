@@ -28,7 +28,7 @@ description: Implement a markdown plan in an isolated git worktree, validate the
 5. Review the diff and commit with a plan-related message.
 6. Save the PR markdown body to a file in the worktree.
 7. Create the pull request from inside the worktree with `bash "$PR_SCRIPT" --base "$BASE_BRANCH" --title "$PR_TITLE" --body-file "$PR_FILE"`.
-8. Copy the PR body to the clipboard if the environment supports that, and include the PR URL and same markdown in the final response.
+8. Include the PR URL and same markdown in the final response.
 9. Remove the temporary worktree only after the PR URL is returned and the PR body has been preserved.
 
 ## Guardrails
