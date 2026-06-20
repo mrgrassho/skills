@@ -2,9 +2,9 @@
 
 ## Trigger examples
 
-- "Implement the approved plan from `input.md` on top of `main`, push the branch, and give me a PR draft."
+- "Implement the approved plan from `input.md` on top of `main`, open a pull request, and give me the PR link."
 - "Use a separate worktree for this change so you do not touch the active checkout."
-- "Start from `release/1.8`, do the work in a temporary worktree, then push and summarize it."
+- "Start from `release/1.8`, do the work in a temporary worktree, then open a PR and summarize it."
 
 ## Recommended naming
 
@@ -28,6 +28,12 @@ git -C "$REPO_DIR" rev-parse --verify "$REMOTE/$BASE_BRANCH" \
   || git -C "$REPO_DIR" rev-parse --verify "$BASE_BRANCH"
 ```
 
+After the worktree is created, validate that the repository provides the PR helper:
+
+```bash
+test -f "$WORKTREE_PATH/${PR_SCRIPT:-scripts/create_pr.sh}"
+```
+
 If the remote branch exists, create the worktree from `"$REMOTE/$BASE_BRANCH"`.
 If it does not but the local branch exists, create the worktree from `"$BASE_BRANCH"` instead.
 
@@ -44,6 +50,7 @@ git -C "$REPO_DIR" worktree add -b "$IMPL_BRANCH" "$WORKTREE_PATH" "$REMOTE/$BAS
 
 cd "$WORKTREE_PATH"
 cat "$PLAN_FILE"
+PR_SCRIPT="${PR_SCRIPT:-scripts/create_pr.sh}"
 ```
 
 Local fallback:
@@ -64,14 +71,36 @@ git diff
 
 Run the smallest relevant test set first, then broaden if needed.
 
-## PR markdown shape
+## Create the PR
 
-Keep the final PR body short and operational:
+Write the PR body to a file, then let the repo helper push the branch and create the GitHub pull request:
+
+```bash
+PR_TITLE="Implement plan from $(basename "$PLAN_FILE")"
+PR_FILE="$WORKTREE_PATH/PR_DRAFT_${TS}.md"
+cat > "$PR_FILE" <<EOF
+## Summary
+Implemented the plan described in \`$PLAN_FILE\` starting from \`$BASE_BRANCH\`.
+
+## What changed
+- ...
+
+## Testing
+- [x] Targeted tests run: \`...\`
+
+## Notes
+- ...
+
+## Follow-ups
+- ...
+EOF
+
+bash "$PR_SCRIPT" --base "$BASE_BRANCH" --title "$PR_TITLE" --body-file "$PR_FILE"
+```
+
+Keep the PR body short and operational:
 
 ```md
-# PR Title
-Implement plan from `input.md`
-
 ## Summary
 Implemented the plan described in `input.md` starting from `main`.
 
@@ -108,15 +137,16 @@ If no clipboard tool exists:
 
 ## Failure handling examples
 
-- Push fails:
+- PR creation fails:
   keep the worktree, preserve the branch state, and report the exact worktree path.
 - Implementation is partial but coherent:
-  push it anyway and mark incomplete items clearly in the PR markdown.
+  create the PR anyway and mark incomplete items clearly in the PR markdown.
 - Worktree removal fails:
   report the exact leftover path instead of pretending cleanup succeeded.
 
 ## Expected final response
 
+- PR URL
 - pushed branch name
 - whether the temporary worktree was deleted
 - clipboard copy status if attempted
