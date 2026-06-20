@@ -69,7 +69,7 @@ done
 command -v gh >/dev/null 2>&1 || die "GitHub CLI is not installed or not on PATH"
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || die "Not inside a git repository"
 
-current_branch="$(git branch --show-current)"
+current_branch="$(git rev-parse --abbrev-ref HEAD)"
 [[ -n "$current_branch" ]] || die "Detached HEAD is not supported"
 [[ "$current_branch" != "$base_branch" ]] || die "Create a feature branch before opening a pull request"
 
