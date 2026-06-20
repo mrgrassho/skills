@@ -30,7 +30,8 @@ If you want to improve or publish skills instead of installing them:
 1. Edit or add skills under `drafts/` or `skills/`.
 2. Regenerate the exported bundles with `python3 scripts/export_skill_targets.py`.
 3. Validate the published set with `python3 scripts/validate_skills.py`.
-4. Open a pull request with the updated skill and generated `dist/` output.
+4. Commit your changes on a feature branch.
+5. Open a pull request with `bash scripts/create_pr.sh`.
 
 See `CONTRIBUTING.md` for the review checklist and publishing rules.
 
