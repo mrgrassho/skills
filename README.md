@@ -6,7 +6,13 @@ This repository is meant to be useful to people other than the author. It keeps 
 
 ## Install (Quick)
 
-Clone the repo and install every published skill into every supported coding agent:
+Install every published skill into every supported coding agent:
+
+```bash
+curl -fsSL https://mrgr.sh/skills | sh
+```
+
+Or clone the repo first and run the installer locally:
 
 ```bash
 git clone https://github.com/mrgrassho/skills.git && cd skills && bash scripts/install_skill.sh all
@@ -21,7 +27,7 @@ Use the installer directly when you only want one target or one skill:
 - Single published skill: `bash scripts/install_skill.sh codex implement-plan-worktree`
 - Project-local destination: `bash scripts/install_skill.sh opencode --dest .opencode/skills`
 
-The installer refreshes the Claude and OpenCode export bundles automatically before copying them into place. `skills/` remains the source of truth.
+The remote installer is `install.sh`; publish that file at `https://mrgr.sh/skills` for the `curl | sh` command. The local installer refreshes the Claude and OpenCode export bundles automatically before copying them into place. `skills/` remains the source of truth.
 
 ## Propose Changes
 
@@ -47,7 +53,7 @@ To keep the source portable, `skills/` avoids tool-specific frontmatter unless i
 
 ## Published skills
 
-- `implement-plan-worktree`: implement a plan in an isolated git worktree, validate it, push it, and return PR-ready output.
+- `implement-plan-worktree`: implement a plan in an isolated git worktree, validate it, open a GitHub pull request, and return the PR link and summary.
 
 The other trial skills were removed from the published set. This repo currently keeps one polished workflow instead of a broader but weaker catalog.
 
@@ -66,6 +72,7 @@ dist/
 drafts/             # Unpublished or incomplete skill ideas
 templates/skill/    # Canonical scaffold for new skills
 scripts/            # Repo tooling, including validation and export
+install.sh          # Remote bootstrap installer for curl | sh
 ```
 
 ## Quality bar
